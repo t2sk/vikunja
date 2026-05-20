@@ -54,7 +54,7 @@ func TestGetOrCreateUser(t *testing.T) {
 			"username": "someUserWhoDoesNotExistYet",
 		}, false)
 	})
-	t.Run("new user, no username provided", func(t *testing.T) {
+	t.Run("new user, no preferred username provided falls back to subject", func(t *testing.T) {
 		db.LoadAndAssertFixtures(t)
 		s := db.NewSession()
 		defer s.Close()
@@ -66,9 +66,16 @@ func TestGetOrCreateUser(t *testing.T) {
 		provider := &Provider{}
 		idToken := &oidc.IDToken{Issuer: "https://some.issuer", Subject: "12345"}
 
-		_, err := getOrCreateUser(s, cl, provider, idToken)
-		require.Error(t, err)
-		assert.True(t, user.IsErrUsernameInvalid(err))
+		u, err := getOrCreateUser(s, cl, provider, idToken)
+		require.NoError(t, err)
+		err = s.Commit()
+		require.NoError(t, err)
+
+		db.AssertExists(t, "users", map[string]interface{}{
+			"id":       u.ID,
+			"email":    cl.Email,
+			"username": idToken.Subject,
+		}, false)
 	})
 	t.Run("new user, no email address", func(t *testing.T) {
 		db.LoadAndAssertFixtures(t)
