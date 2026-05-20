@@ -147,6 +147,22 @@ describe('FormField', () => {
 		expect(onSubmit).toHaveBeenCalledTimes(1)
 	})
 
+	it('does not forward @keyup.enter while IME composition is active', async () => {
+		const onSubmit = vi.fn()
+
+		const wrapper = mount({
+			components: {FormField},
+			template: `<FormField @keyup.enter="onSubmit" />`,
+			setup() {
+				return {onSubmit}
+			},
+		})
+
+		const input = wrapper.find('input')
+		await input.trigger('keyup', {key: 'Enter', isComposing: true})
+		expect(onSubmit).not.toHaveBeenCalled()
+	})
+
 	it('uses provided id for input', () => {
 		const wrapper = mount(FormField, {
 			props: {id: 'my-input', label: 'My Input'},
