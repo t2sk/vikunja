@@ -99,6 +99,13 @@ describe('FormInput', () => {
 		expect(onKeyup).toHaveBeenCalledTimes(1)
 	})
 
+	it('does not forward enter keyup during IME composition', async () => {
+		const onKeyup = vi.fn()
+		const wrapper = mount(FormInput, {attrs: {onKeyup}})
+		await wrapper.find('input').trigger('keyup', {key: 'Enter', isComposing: true})
+		expect(onKeyup).not.toHaveBeenCalled()
+	})
+
 	it('renders error message when error prop is set', () => {
 		const wrapper = mount(FormInput, {props: {error: 'Required'}})
 		const help = wrapper.find('p.help.is-danger')

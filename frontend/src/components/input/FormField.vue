@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, useSlots, useId, ref} from 'vue'
+import {computed, useSlots, useId, ref, useAttrs} from 'vue'
 
 interface Props {
 	modelValue?: string | number
@@ -56,6 +56,29 @@ const inputClasses = computed(() => [
 	},
 ])
 
+const attrs = useAttrs()
+
+const forwardedAttrs = computed(() => {
+	const {onKeyup, ...rest} = attrs
+	return rest
+})
+
+function handleKeyup(event: KeyboardEvent) {
+	if (event.key === 'Enter' && event.isComposing) {
+		return
+	}
+
+	const keyupHandler = attrs.onKeyup
+	if (Array.isArray(keyupHandler)) {
+		keyupHandler.forEach(handler => handler(event))
+		return
+	}
+
+	if (typeof keyupHandler === 'function') {
+		keyupHandler(event)
+	}
+}
+
 const inputBindings = computed(() => {
 	const bindings: Record<string, unknown> = {}
 	if (props.modelValue !== undefined) {
@@ -90,12 +113,13 @@ defineExpose({
 					<input
 						:id="inputId"
 						ref="inputRef"
-						v-bind="{ ...$attrs, ...inputBindings }"
+						v-bind="{ ...forwardedAttrs, ...inputBindings }"
 						:class="inputClasses"
 						:disabled="disabled || undefined"
 						:aria-invalid="error ? true : undefined"
 						:aria-describedby="errorId"
 						@input="handleInput"
+						@keyup="handleKeyup"
 					>
 				</slot>
 			</label>
@@ -122,12 +146,13 @@ defineExpose({
 					<input
 						:id="inputId"
 						ref="inputRef"
-						v-bind="{ ...$attrs, ...inputBindings }"
+						v-bind="{ ...forwardedAttrs, ...inputBindings }"
 						:class="inputClasses"
 						:disabled="disabled || undefined"
 						:aria-invalid="error ? true : undefined"
 						:aria-describedby="errorId"
 						@input="handleInput"
+						@keyup="handleKeyup"
 					>
 				</slot>
 			</div>
