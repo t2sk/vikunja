@@ -29,7 +29,6 @@ import (
 	"code.vikunja.io/api/pkg/db"
 	"code.vikunja.io/api/pkg/log"
 	"code.vikunja.io/api/pkg/models"
-	"code.vikunja.io/api/pkg/modules/auth"
 	"code.vikunja.io/api/pkg/modules/avatar"
 	"code.vikunja.io/api/pkg/modules/avatar/upload"
 	"code.vikunja.io/api/pkg/modules/keyvalue"
@@ -76,6 +75,7 @@ type claims struct {
 	Email              string                   `json:"email"`
 	Name               string                   `json:"name"`
 	PreferredUsername  string                   `json:"preferred_username"`
+	ClaimUsername      string                   `json:"claim:username"`
 	Nickname           string                   `json:"nickname"`
 	VikunjaGroups      []map[string]interface{} `json:"vikunja_groups"`
 	Picture            string                   `json:"picture"`
@@ -403,7 +403,12 @@ func getOrCreateUser(s *xorm.Session, cl *claims, provider *Provider, idToken *o
 			ExtraSettingsLinks: cl.ExtraSettingsLinks,
 		}
 
-		u, err = auth.CreateUserWithRandomUsername(s, uu)
+		u, err = user.CreateUser(s, uu)
+		if err != nil {
+			return nil, err
+		}
+
+		err = models.CreateNewProjectForUser(s, u)
 		if err != nil {
 			return nil, err
 		}
@@ -445,8 +450,16 @@ func mergeClaims(cl *claims, cl2 *claims, forceUserInfo bool) error {
 		cl.Name = cl2.Name
 	}
 
+	if cl.PreferredUsername == "" && cl.ClaimUsername != "" {
+		cl.PreferredUsername = cl.ClaimUsername
+	}
+
 	if (forceUserInfo && cl2.PreferredUsername != "") || cl.PreferredUsername == "" {
 		cl.PreferredUsername = cl2.PreferredUsername
+	}
+
+	if cl.PreferredUsername == "" && cl2.ClaimUsername != "" {
+		cl.PreferredUsername = cl2.ClaimUsername
 	}
 
 	if cl.PreferredUsername == "" && cl2.Nickname != "" {

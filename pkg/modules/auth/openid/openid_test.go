@@ -66,16 +66,9 @@ func TestGetOrCreateUser(t *testing.T) {
 		provider := &Provider{}
 		idToken := &oidc.IDToken{Issuer: "https://some.issuer", Subject: "12345"}
 
-		u, err := getOrCreateUser(s, cl, provider, idToken)
-		require.NoError(t, err)
-		assert.NotEmpty(t, u.Username)
-		err = s.Commit()
-		require.NoError(t, err)
-
-		db.AssertExists(t, "users", map[string]interface{}{
-			"id":    u.ID,
-			"email": cl.Email,
-		}, false)
+		_, err := getOrCreateUser(s, cl, provider, idToken)
+		require.Error(t, err)
+		assert.True(t, user.IsErrUsernameInvalid(err))
 	})
 	t.Run("new user, no email address", func(t *testing.T) {
 		db.LoadAndAssertFixtures(t)
@@ -373,6 +366,20 @@ func TestMergeClaims(t *testing.T) {
 		assert.Equal(t, "userinfo_username", tokenClaims.PreferredUsername)
 	})
 
+	t.Run("Use claim:username when preferred_username is missing", func(t *testing.T) {
+		tokenClaims := &claims{
+			Email:         "token-email@example.com",
+			Name:          "Token Name",
+			ClaimUsername: "token_claim_username",
+		}
+
+		userinfoClaims := &claims{}
+
+		err := mergeClaims(tokenClaims, userinfoClaims, false)
+		require.NoError(t, err)
+		assert.Equal(t, "token_claim_username", tokenClaims.PreferredUsername)
+	})
+
 	t.Run("Use nickname when preferred_username is missing", func(t *testing.T) {
 		// Setup token claims with missing preferred_username
 		tokenClaims := &claims{
@@ -395,6 +402,23 @@ func TestMergeClaims(t *testing.T) {
 
 		// Verify nickname was used for preferred_username
 		assert.Equal(t, "userinfo_nickname", tokenClaims.PreferredUsername)
+	})
+
+	t.Run("Use userinfo claim:username when preferred_username is missing", func(t *testing.T) {
+		tokenClaims := &claims{
+			Email: "token-email@example.com",
+			Name:  "Token Name",
+		}
+
+		userinfoClaims := &claims{
+			Email:         "userinfo-email@example.com",
+			Name:          "UserInfo Name",
+			ClaimUsername: "userinfo_claim_username",
+		}
+
+		err := mergeClaims(tokenClaims, userinfoClaims, false)
+		require.NoError(t, err)
+		assert.Equal(t, "userinfo_claim_username", tokenClaims.PreferredUsername)
 	})
 
 	t.Run("Error when email is missing", func(t *testing.T) {
