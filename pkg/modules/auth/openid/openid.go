@@ -335,6 +335,24 @@ func syncUserAvatarFromOpenID(s *xorm.Session, u *user.User, pictureURL string) 
 	return nil
 }
 
+func resolveUsername(cl *claims, idToken *oidc.IDToken) string {
+	username := strings.TrimSpace(cl.PreferredUsername)
+	if username == "" {
+		username = strings.TrimSpace(cl.ClaimUsername)
+	}
+	if username == "" {
+		username = strings.TrimSpace(cl.Nickname)
+	}
+	if username == "" {
+		username = strings.TrimSpace(idToken.Subject)
+	}
+	if username == "" {
+		username = petname.Generate(3, "-")
+	}
+
+	return strings.ReplaceAll(username, " ", "-")
+}
+
 func getOrCreateUser(s *xorm.Session, cl *claims, provider *Provider, idToken *oidc.IDToken) (u *user.User, err error) {
 
 	// set defaults
@@ -394,7 +412,7 @@ func getOrCreateUser(s *xorm.Session, cl *claims, provider *Provider, idToken *o
 
 		// If no user exists, create one with the preferred username if it is not already taken
 		uu := &user.User{
-			Username:           strings.ReplaceAll(cl.PreferredUsername, " ", "-"),
+			Username:           resolveUsername(cl, idToken),
 			Email:              cl.Email,
 			Name:               cl.Name,
 			Status:             user.StatusActive,
