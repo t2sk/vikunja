@@ -71,6 +71,29 @@
 				:aria-pressed="isRowFocused"
 				@pointerdown="handleBarPointerDown(bar, $event)"
 			/>
+			<g
+				v-if="shouldShowDueDateDot(bar)"
+				class="gantt-due-date-marker"
+				:opacity="bar.meta?.isDone ? 0.5 : 1"
+				:aria-label="$t('project.gantt.dueDateMarker', { task: bar.meta?.label || bar.id })"
+			>
+				<line
+					:x1="getDueDateDotX(bar)"
+					y1="8"
+					:x2="getDueDateDotX(bar)"
+					y2="32"
+					stroke-width="2"
+					:stroke="getDueDateMarkerStroke(bar)"
+				/>
+				<circle
+					:cx="getDueDateDotX(bar)"
+					cy="20"
+					r="5"
+					:fill="getDueDateDotFill(bar)"
+					:stroke="getDueDateMarkerStroke(bar)"
+					stroke-width="2"
+				/>
+			</g>
 
 			<!-- Parent summary bar (full height with diamond endpoints) -->
 			<g
@@ -380,6 +403,31 @@ function getBarFillAttr(bar: GanttBarModel): string {
 	return getBarFill(bar)
 }
 
+function shouldShowDueDateDot(bar: GanttBarModel): boolean {
+	if (bar.meta?.isParent) {
+		return false
+	}
+	return Boolean(bar.meta?.dueDate)
+}
+
+function getDueDateDotX(bar: GanttBarModel): number {
+	if (!bar.meta?.dueDate) {
+		return getBarX.value(bar) + getBarWidth.value(bar)
+	}
+	return computeBarX(roundToNaturalDayBoundary(bar.meta.dueDate, true))
+}
+
+function getDueDateDotFill(bar: GanttBarModel): string {
+	return 'var(--white)'
+}
+
+function getDueDateMarkerStroke(bar: GanttBarModel): string {
+	if (bar.meta?.color) {
+		return getTextColor(bar.meta.color)
+	}
+	return 'var(--warning)'
+}
+
 function getBarStroke(bar: GanttBarModel) {
 	if (isDateless(bar)) {
 		return 'var(--grey-300)' // Gray for dashed border
@@ -453,6 +501,10 @@ function startResize(bar: GanttBarModel, edge: 'start' | 'end', event: PointerEv
 		&:active {
 			cursor: grabbing;
 		}
+	}
+
+	.gantt-due-date-marker {
+		pointer-events: none;
 	}
 
 	:deep(text) {

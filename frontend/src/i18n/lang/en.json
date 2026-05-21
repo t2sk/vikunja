@@ -167,9 +167,9 @@
           "mm-dd-yyyy": "MM-DD-YYYY",
           "dd-mm-yyyy": "DD-MM-YYYY",
           "yyyy-mm-dd": "YYYY-MM-DD",
-          "mm\/dd\/yyyy": "MM\/DD\/YYYY",
-          "dd\/mm\/yyyy": "DD\/MM\/YYYY",
-          "yyyy\/mm\/dd": "YYYY\/MM\/DD"
+          "mm/dd/yyyy": "MM/DD/YYYY",
+          "dd/mm/yyyy": "DD/MM/YYYY",
+          "yyyy/mm/dd": "YYYY/MM/DD"
         },
         "timeFormat": "Time format",
         "timeFormatOptions": {
@@ -490,7 +490,8 @@
       "partialDatesEnd": "End date only (open-ended)",
       "expandGroup": "Expand group: {task}",
       "collapseGroup": "Collapse group: {task}",
-      "toggleRelationArrows": "Toggle relation arrows"
+      "toggleRelationArrows": "Toggle relation arrows",
+      "dueDateMarker": "Due date marker for task {task}"
     },
     "table": {
       "title": "Table",
@@ -1533,4 +1534,4 @@
       "newOwnerLabel": "New owner"
     }
   }
-}
+}

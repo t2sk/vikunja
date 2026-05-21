@@ -53,7 +53,7 @@
 					:autocomplete="autocompleteEnabled ? undefined : 'off'"
 					:spellcheck="autocompleteEnabled ? undefined : 'false'"
 					@keyup="search"
-					@keyup.enter.exact.prevent="() => createOrSelectOnEnter()"
+					@keyup.enter.exact.prevent="(event) => handleEnter(event)"
 					@keydown.down.exact.prevent="() => preSelect(0)"
 					@focus="handleFocus"
 				>
@@ -445,6 +445,14 @@ function createOrSelectOnEnter() {
 	}
 
 	create()
+}
+
+function handleEnter(event: KeyboardEvent) {
+	if (event.isComposing || event.keyCode === 229) {
+		return
+	}
+
+	createOrSelectOnEnter()
 }
 
 function remove(item: T) {

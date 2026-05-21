@@ -9,6 +9,7 @@ export interface GanttBarModel {
 	meta?: {
 		label?: string
 		color?: string
+		dueDate?: Date
 		hasActualDates?: boolean
 		dateType?: GanttBarDateType
 		isDone?: boolean

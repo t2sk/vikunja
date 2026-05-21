@@ -5,9 +5,36 @@
 	},
 	"home": {
 		"welcomeNight": "おやすみなさい、{username}さん",
+		"welcomeNightOwl": "こんにちは、夜更かしの {username} さん",
+		"welcomeNightBurning": "夜遅くまでお疲れ様です、{username} さん？",
+		"welcomeNightQuiet": "静かな時間ですね、{username} さん",
+		"welcomeNightLate": "遅い時間ですね、{username} さん",
+		"welcomeNightMoonlit": "月明かりの下での計画ですか、{username} さん？",
 		"welcomeMorning": "おはようございます、{username}さん",
+		"welcomeMorningHey": "やあ {username} さん、準備はいいですか？",
+		"welcomeMorningFresh": "新たなスタートですね、{username} さん",
+		"welcomeMorningCoffee": "コーヒーとタスク、{username} さん？",
+		"welcomeMorningRise": "起きて計画を立てましょう、{username} さん",
+		"welcomeMorningBack": "おかえりなさい、{username} さん",
+		"welcomeMondayFresh": "新しい週ですね、{username} さん",
+		"welcomeTuesday": "良い火曜日を、{username} さん",
+		"welcomeWednesdayMid": "もう週の半ばですね、{username} さん",
+		"welcomeThursday": "あと少しです、{username} さん",
+		"welcomeFridayPush": "金曜日のラストスパート、{username} さん？",
+		"welcomeSaturday": "週末モードですね、{username} さん",
+		"welcomeSundaySession": "日曜日のセッションですか、{username} さん？",
 		"welcomeDay": "こんにちは、{username}さん",
+		"welcomeDayBack": "作業に戻りましょう、{username} さん",
+		"welcomeDayFocus": "集中しましょう、{username} さん",
+		"welcomeDayKeepGoing": "その調子です、{username} さん",
+		"welcomeDayWhatsNext": "次は何ですか、{username} さん？",
+		"welcomeDayGood": "こんにちは、{username} さん",
 		"welcomeEvening": "こんばんは、{username}さん",
+		"welcomeEveningWind": "そろそろ休憩ですか、{username} さん？",
+		"welcomeEveningReturns": "{username} さんが戻りました",
+		"welcomeEveningWrap": "そろそろ終わりの時間ですか、{username} さん？",
+		"welcomeEveningOneMore": "もう一つだけやりますか、{username} さん？",
+		"welcomeEveningStill": "まだ頑張っていますね、{username} さん？",
 		"lastViewed": "最近の表示",
 		"addToHomeScreen": "ホーム画面に追加すると、すぐにアクセスできて使いやすくなります。",
 		"goToOverview": "概要に移動",
@@ -68,9 +95,31 @@
 			"remember": "ログインしたままにする",
 			"registrationDisabled": "新規登録は無効化されています。",
 			"passwordResetTokenMissing": "パスワードリセットトークンがありません。",
-			"registrationFailed": "登録中にエラーが発生しました。入力内容を確認して、もう一度お試しください。"
+			"registrationFailed": "登録中にエラーが発生しました。入力内容を確認して、もう一度お試しください。",
+			"openIdTotpRequired": "あなたのアカウントは2要素認証が必要です。TOTPコードを入力して再度サインインしてください。",
+			"openIdTotpSubmit": "続ける",
+			"oauthMissingParams": "必要なOAuthパラメータが不足しています: {params}",
+			"oauthRedirectedToApp": "アプリにリダイレクトされました。このタブは閉じても構いません。",
+			"desktopTryDemo": "デモを試す",
+			"desktopCustomServer": "カスタムサーバーURL",
+			"desktopCustomServerDescription": "始めるには、VikunjaサーバーのURLを入力してください。",
+			"desktopWaitingForAuth": "認証を待機しています…",
+			"desktopOAuthError": "認証に失敗しました: {error}"
 		},
 		"settings": {
+			"bots": {
+				"title": "ボットユーザー",
+				"description": "ボットユーザーは、あなたが所有するAPI専用のユーザーです。プロジェクトへの追加、タスクの割り当て、APIトークンでの認証が可能です。対話的なログインはできません。",
+				"namePlaceholder": "マイアシスタント",
+				"create": "ボットの作成",
+				"enable": "有効化",
+				"badge": "ボット",
+				"delete": {
+					"header": "このボットユーザーを削除",
+					"text1": "ボットユーザー \"{username}\" を削除して本当によろしいですか？",
+					"text2": "この操作は元に戻せません。このボットに属するすべてのAPIトークンは取り消されます。"
+				}
+			},
 			"title": "設定",
 			"newPasswordTitle": "パスワードの更新",
 			"newPassword": "新しいパスワード",
@@ -96,12 +145,21 @@
 				"weekStart": "週の始まり",
 				"weekStartSunday": "日曜日",
 				"weekStartMonday": "月曜日",
+				"weekStartTuesday": "火曜日",
+				"weekStartWednesday": "水曜日",
+				"weekStartThursday": "木曜日",
+				"weekStartFriday": "金曜日",
+				"weekStartSaturday": "土曜日",
 				"language": "言語",
 				"defaultProject": "デフォルトのプロジェクト",
 				"defaultView": "デフォルトのビュー",
 				"timezone": "タイムゾーン",
 				"overdueTasksRemindersTime": "期限切れタスクのリマインダー送信時間",
+				"quickAddDefaultReminders": "クイック追加のデフォルトリマインダー",
+				"quickAddDefaultRemindersDescription": "これらのリマインダーは、期日が設定された状態でクイック追加によって作成されたすべてのタスクに自動的に追加されます。",
+				"quickAddDefaultRemindersHint": "タスクの期日に対する相対的なリマインダーを1つ以上追加します。無効にする場合は空のままにしてください。",
 				"filterUsedOnOverview": "概要ページの絞り込み条件",
+				"showLastViewed": "概要ページに最近閲覧したプロジェクトを表示する",
 				"minimumPriority": "表示タスク優先度の最小値",
 				"dateDisplay": "日付表示形式",
 				"dateDisplayOptions": {
@@ -125,7 +183,13 @@
 				"taskAndNotifications": "プロジェクトとタスク",
 				"privacy": "プライバシー設定",
 				"localization": "ローカライズ",
-				"appearance": "外観と動作"
+				"appearance": "外観と動作",
+				"desktop": "デスクトップアプリ"
+			},
+			"desktop": {
+				"quickEntryShortcut": "クイック入力のショートカット",
+				"shortcutRecorderPlaceholder": "クリックしてショートカットを設定",
+				"shortcutRecorderRecording": "キーの組み合わせを押してください…"
 			},
 			"totp": {
 				"title": "2要素認証",
@@ -142,8 +206,23 @@
 			},
 			"caldav": {
 				"title": "CalDAV",
+				"howTo": "VikunjaをCalDAVクライアントに接続して、異なるクライアントからすべてのタスクを表示および管理できます。クライアントに次のURLを入力してください:",
 				"more": "VikunjaのCalDAVに関する詳細情報",
-				"tokens": "CalDAVトークン"
+				"tokens": "CalDAVトークン",
+				"tokensHowTo": "CalDAV認証には、通常のアカウントパスワードまたは専用のCalDAVトークンを使用できます。",
+				"createToken": "CalDAVトークンを作成",
+				"tokenCreated": "新しいトークンはこちらです: {token}",
+				"wontSeeItAgain": "メモするか安全に保存してください — 二度と表示されません。",
+				"mustUseToken": "サードパーティのクライアントでCalDAVを使用するには、CalDAVトークンを作成する必要があります。クライアントのパスワードフィールドにトークンを入力してください。",
+				"usernameIs": "CalDAVのユーザー名: {0}",
+				"apiTokenHint": "CalDAV権限を持つAPIトークンも使用できます。{link} で作成してください。"
+			},
+			"feeds": {
+				"title": "Atomフィード",
+				"howTo": "Atom互換のフィードリーダーからVikunjaの通知を購読できます。次のURLを使用してください:",
+				"usernameIs": "フィードのユーザー名: {0}",
+				"apiTokenHint": "{scope} 権限を持つAPIトークンで認証します。{link} で作成してください。",
+				"tokenTitle": "Atomフィード"
 			},
 			"avatar": {
 				"title": "プロフィール画像",
@@ -174,6 +253,10 @@
 			"backgroundBrightness": {
 				"title": "背景の明るさ"
 			},
+			"webhooks": {
+				"title": "Webhook通知",
+				"description": "リマインダーまたは期限切れのイベントが発生したときにPOSTリクエストを受信するようにWebhook URLを設定します。これらのWebhookはすべてのプロジェクトからイベントを受信します。"
+			},
 			"apiTokens": {
 				"title": "APIトークン",
 				"general": "APIトークンを使うとログインせずにVikunjaのAPIを利用できます。",
@@ -189,6 +272,13 @@
 				"expired": "このトークンは {ago} に期限切れしています。",
 				"tokenCreatedSuccess": "新しい API トークンはこちらです: {token}",
 				"tokenCreatedNotSeeAgain": "このトークンは二度と表示されません。安全な場所に保管してください。",
+				"presets": {
+					"title": "クイックプリセット",
+					"readOnly": "読み取り専用",
+					"tasks": "タスク管理",
+					"projects": "プロジェクト管理",
+					"fullAccess": "フルアクセス"
+				},
 				"delete": {
 					"header": "トークンの削除",
 					"text1": "トークン \"{token}\" を削除してよろしいですか？",
@@ -368,7 +458,8 @@
 			"addPlaceholder": "タスクを追加…",
 			"empty": "このプロジェクトにはタスクが存在しません。",
 			"newTaskCta": "タスクを作成してください。",
-			"editTask": "タスクの編集"
+			"editTask": "タスクの編集",
+			"sort": "並べ替え"
 		},
 		"gantt": {
 			"title": "ガント",
@@ -397,7 +488,8 @@
 			"partialDatesEnd": "終了日のみ (開始未定)",
 			"expandGroup": "グループを展開: {task}",
 			"collapseGroup": "グループを折りたたむ: {task}",
-			"toggleRelationArrows": "関連の矢印を切り替え"
+			"toggleRelationArrows": "関連の矢印を切り替え",
+			"dueDateMarker": "タスク {task} の期日マーカー"
 		},
 		"table": {
 			"title": "テーブル",
@@ -427,7 +519,8 @@
 			"bucketTitleSavedSuccess": "バケットのタイトルは正常に保存されました。",
 			"bucketLimitSavedSuccess": "バケットの上限は正常に保存されました。",
 			"collapse": "このバケットを折りたたむ",
-			"bucketLimitReached": "バケットの上限に達しました。新しいタスクを追加するには、既存のタスクを削除するか、上限を緩和してください。"
+			"bucketLimitReached": "バケットの上限に達しました。新しいタスクを追加するには、既存のタスクを削除するか、上限を緩和してください。",
+			"bucketOptions": "バケットオプション"
 		},
 		"pseudo": {
 			"favorites": {
@@ -550,6 +643,29 @@
 			}
 		}
 	},
+	"sorting": {
+		"manually": "手動",
+		"apply": "並べ替えを適用",
+		"description": "このリストのタスクの並べ替え方法を選択します。手動で並べ替える場合は、タスクをドラッグ＆ドロップして順序を変更できます。",
+		"options": {
+			"titleAsc": "タイトル (A–Z)",
+			"titleDesc": "タイトル (Z–A)",
+			"priorityDesc": "優先度 (高い順)",
+			"priorityAsc": "優先度 (低い順)",
+			"dueDateAsc": "期日 (早い順)",
+			"dueDateDesc": "期日 (遅い順)",
+			"startDateAsc": "開始日 (早い順)",
+			"startDateDesc": "開始日 (遅い順)",
+			"endDateAsc": "終了日 (早い順)",
+			"endDateDesc": "終了日 (遅い順)",
+			"percentDoneDesc": "進捗率 (完了に近い順)",
+			"percentDoneAsc": "進捗率 (未完了に近い順)",
+			"createdDesc": "作成日 (新しい順)",
+			"createdAsc": "作成日 (古い順)",
+			"updatedDesc": "更新日 (新しい順)",
+			"updatedAsc": "更新日 (古い順)"
+		}
+	},
 	"migrate": {
 		"title": "他のサービスからのインポート",
 		"titleService": "{name}からVikunjaへのデータのインポート",
@@ -564,7 +680,30 @@
 		"importUpload": "{name}からVikunjaにデータをインポートするには、以下のボタンをクリックしてファイルを選択してください。",
 		"upload": "ファイルのアップロード",
 		"migrationStartedWillReciveEmail": "{service}のリスト、タスク、メモ、リマインダー、ファイルをすべてVikunjaにインポートします。完了までしばらくお待ちください。メールでお知らせします。このウィンドウは閉じても構いません。",
-		"migrationInProgress": "現在移行中です。完了するまでしばらくお待ちください。"
+		"migrationInProgress": "現在移行中です。完了するまでしばらくお待ちください。",
+		"csv": {
+			"description": "カスタム列マッピングを使用してCSVファイルからタスクをインポートします。",
+			"uploadDescription": "インポートするCSVファイルを選択してください。ファイルの最初の行にはヘッダーが含まれている必要があります。",
+			"selectFile": "CSVファイルを選択",
+			"columnMappingDescription": "CSVファイルの各列をタスクの属性にマッピングします。Vikunjaは最も可能性の高いマッピングを自動検出しました。設定を変更すると以下のプレビューが自動的に更新されます。",
+			"parsingOptions": "解析オプション",
+			"delimiter": "区切り文字",
+			"dateFormat": "日付の形式",
+			"skipRows": "スキップする行",
+			"mapColumns": "列のマッピング",
+			"example": "例:",
+			"preview": "プレビュー",
+			"previewDescription": "インポートされる {count} 件のタスクのうち最初の 5 件を表示しています。",
+			"import": "タスクのインポート",
+			"untitled": "無題のタスク",
+			"ignore": "無視する",
+			"delimiters": {
+				"comma": "カンマ (,)",
+				"semicolon": "セミコロン (;)",
+				"tab": "タブ",
+				"pipe": "パイプ (|)"
+			}
+		}
 	},
 	"label": {
 		"title": "ラベル",
@@ -636,7 +775,12 @@
 		"createdBy": "{0} によって作成",
 		"actions": "アクション",
 		"cannotBeUndone": "この操作は元に戻せません！",
-		"avatarOfUser": "{user} のプロフィール画像"
+		"avatarOfUser": "{user} のプロフィール画像",
+		"closeBanner": "バナーを閉じる",
+		"closeDialog": "ダイアログを閉じる",
+		"closeQuickActions": "クイックアクションを閉じる",
+		"skipToContent": "メインコンテンツへスキップ",
+		"sortBy": "並べ替え"
 	},
 	"input": {
 		"resetColor": "色のリセット",
@@ -698,6 +842,9 @@
 				"toggleHeaderCell": "選択中のセルのタイトル セル指定の有無の切り替え",
 				"mergeOrSplit": "結合または分割",
 				"fixTables": "テーブルの修正"
+			},
+			"emoji": {
+				"empty": "絵文字が見つかりません"
 			}
 		},
 		"multiselect": {
@@ -796,7 +943,8 @@
 			"select": "期間の選択",
 			"noTasks": "タスクはありません — よい一日を！",
 			"filterByLabel": "ラベル {label} での絞り込み",
-			"clearLabelFilter": "ラベルでの絞り込みの解除"
+			"clearLabelFilter": "ラベルでの絞り込みの解除",
+			"savedFilterIgnored": "ラベルでタスクを表示している間は、保存されたホームページの絞り込み条件は適用されません。"
 		},
 		"detail": {
 			"chooseDueDate": "期日を設定…",
@@ -814,6 +962,9 @@
 			"belongsToProject": "このタスクはプロジェクト「{project}」に含まれています。",
 			"back": "プロジェクトに戻る",
 			"due": "期限: {at}",
+			"closeTaskDetail": "タスクの詳細を閉じる",
+			"title": "タスクの詳細",
+			"markAsDone": "「{task}」を完了としてマーク",
 			"scrollToBottom": "一番下まで移動",
 			"organization": "組織",
 			"management": "管理",
@@ -998,6 +1149,7 @@
 		},
 		"quickAddMagic": {
 			"hint": "期日、担当者、その他の項目を追加するキーワードが使用できます。",
+			"quickEntryHint": "日付やラベルなどにマジックプレフィックスを使用します。メインのVikunjaアプリを開き、タスク入力時のツールチップで詳細を確認してください。",
 			"title": "クイック追加",
 			"intro": "タスクを作成する際に特定のキーワードを使うことで項目を直接追加できます。よく使う項目とともにタスクをすぐ追加できます。",
 			"multiple": "複数使用できます。",
@@ -1170,7 +1322,8 @@
 		"none": "通知はありません。よい一日を！",
 		"explainer": "購読中のアクション、プロジェクト、タスクへの変更が発生すると、通知がここに表示されます。",
 		"markAllRead": "通知をすべて既読にする",
-		"markAllReadSuccess": "通知をすべて既読にしました。"
+		"markAllReadSuccess": "通知をすべて既読にしました。",
+		"subscribeFeed": "Atomフィード経由で通知を購読する"
 	},
 	"quickActions": {
 		"commands": "コマンド",
@@ -1304,6 +1457,67 @@
 			"days": "日",
 			"weeks": "週間",
 			"years": "年"
+		}
+	},
+	"admin": {
+		"title": "管理",
+		"labels": {
+			"users": "ユーザー",
+			"tasks": "タスク"
+		},
+		"overview": {
+			"shares": "共有",
+			"linkSharesShort": "リンク",
+			"teamSharesShort": "チーム",
+			"userSharesShort": "ユーザー",
+			"version": "バージョン",
+			"license": "ライセンス",
+			"licenseValidUntil": "有効期限",
+			"licenseExpiresIn": "あと {days} 日",
+			"licenseLastVerified": "最終確認",
+			"licenseNever": "なし",
+			"licenseLastCheckFailed": "前回の確認に失敗しました",
+			"licenseFeatures": "機能",
+			"licenseInstance": "インスタンス ID",
+			"licenseManage": "管理"
+		},
+		"searchUsersPlaceholder": "ユーザー名またはメールアドレスで検索…",
+		"users": {
+			"status": "ステータス",
+			"details": "詳細",
+			"detailsTitle": "ユーザー: {username}",
+			"issuer": "発行者",
+			"issuerLocal": "ローカル",
+			"issuerUrl": "発行者URL",
+			"subject": "件名",
+			"statusActive": "アクティブ",
+			"statusEmailConfirmation": "メール確認が必要",
+			"statusDisabled": "無効",
+			"statusLocked": "アカウントロック中",
+			"isAdminLabel": "管理者",
+			"addUser": "ユーザーの追加",
+			"createTitle": "ユーザーの作成",
+			"nameLabel": "名前",
+			"skipEmailConfirm": "メール確認をスキップ",
+			"createSubmit": "ユーザーの作成",
+			"saveButton": "変更を保存",
+			"createdSuccess": "ユーザー {username} を作成しました。",
+			"updatedSuccess": "ユーザー {username} を更新しました。",
+			"deletedSuccess": "ユーザー {username} を削除しました。",
+			"deleteScheduledSuccess": "ユーザー {username} に削除をスケジュールするための確認メールが送信されます。",
+			"confirmDeleteTitle": "ユーザーを削除しますか？",
+			"confirmDeleteIntro": "ユーザー {username} をどのように削除しますか？",
+			"deleteModeScheduled": "削除のスケジュール",
+			"deleteModeScheduledHelp": "削除のスケジュールは、自己開始型のアカウント削除と同様に、ユーザーに確認メールを送信します。",
+			"deleteModeNow": "今すぐ削除",
+			"deleteModeNowHelp": "今すぐ削除すると、ユーザーとそのすべてのデータが直ちに削除されます。この操作は元に戻せません。"
+		},
+		"projects": {
+			"ownerLabel": "所有者",
+			"reassignOwner": "所有者の再割り当て",
+			"reassignTitle": "{title} の再割り当て",
+			"reassignedSuccess": "プロジェクトの所有者が再割り当てされました。",
+			"newOwnerLabel": "新しい所有者"
 		}
 	}
 }

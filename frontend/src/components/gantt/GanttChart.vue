@@ -287,6 +287,7 @@ function transformTaskToGanttBar(node: GanttTaskTreeNode): GanttBarModel {
 			label: t.title,
 			task: t,
 			color: taskColor,
+			dueDate: t.dueDate ? new Date(t.dueDate) : undefined,
 			hasActualDates: Boolean(t.startDate && (t.endDate || t.dueDate)),
 			dateType,
 			isDone: t.done,
