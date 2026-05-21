@@ -31,6 +31,8 @@ import (
 type TaskCollection struct {
 	ProjectID     int64 `param:"project" json:"-"`
 	ProjectViewID int64 `param:"view" json:"-"`
+	ProjectIDs    []int64 `query:"project_ids" json:"-"`
+	ProjectIDsArr []int64 `query:"project_ids[]" json:"-"`
 
 	Search string `query:"s" json:"s"`
 
@@ -177,6 +179,41 @@ func getTaskOrTasksInBuckets(s *xorm.Session, a web.Auth, projects []*Project, v
 }
 
 func getRelevantProjectsFromCollection(s *xorm.Session, a web.Auth, tf *TaskCollection) (projects []*Project, err error) {
+	if len(tf.ProjectIDsArr) > 0 {
+		tf.ProjectIDs = append(tf.ProjectIDs, tf.ProjectIDsArr...)
+	}
+
+	if len(tf.ProjectIDs) > 0 {
+		projects = make([]*Project, 0, len(tf.ProjectIDs))
+		seenProjectIDs := make(map[int64]struct{}, len(tf.ProjectIDs))
+		for _, projectID := range tf.ProjectIDs {
+				if projectID <= 0 {
+					return nil, InvalidFieldError([]string{"project_ids"})
+				}
+
+			if _, exists := seenProjectIDs[projectID]; exists {
+				continue
+			}
+			seenProjectIDs[projectID] = struct{}{}
+
+			project := &Project{ID: projectID}
+			canRead, _, err := project.CanRead(s, a)
+			if err != nil {
+				return nil, err
+			}
+			if !canRead {
+				return nil, ErrUserDoesNotHaveAccessToProject{
+					ProjectID: projectID,
+					UserID:    a.GetID(),
+				}
+			}
+
+			projects = append(projects, &Project{ID: projectID})
+		}
+
+		return projects, nil
+	}
+
 	if tf.ProjectID == 0 || tf.isSavedFilter {
 		projects, _, _, err = getRawProjectsForUser(
 			s,
@@ -241,6 +278,7 @@ func getFilterValueForBucketFilter(filter string, view *ProjectView) (newFilter 
 // @Param page query int false "The page number. Used for pagination. If not provided, the first page of results is returned."
 // @Param per_page query int false "The maximum number of items per page. Note this parameter is limited by the configured maximum of items per page."
 // @Param s query string false "Search tasks by task text."
+// @Param project_ids query []int false "A list of project IDs to load tasks from. When provided, tasks are loaded from all listed projects the user has access to."
 // @Param sort_by query string false "The sorting parameter. You can pass this multiple times to get the tasks ordered by multiple different parametes, along with `order_by`. Possible values to sort by are `id`, `title`, `description`, `done`, `done_at`, `due_date`, `created_by_id`, `project_id`, `repeat_after`, `priority`, `start_date`, `end_date`, `hex_color`, `percent_done`, `uid`, `created`, `updated`. Default is `id`."
 // @Param order_by query string false "The ordering parameter. Possible values to order by are `asc` or `desc`. Default is `asc`."
 // @Param filter query string false "The filter query to match tasks by. Check out https://vikunja.io/docs/filters for a full explanation of the feature."

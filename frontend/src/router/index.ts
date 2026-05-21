@@ -398,6 +398,11 @@ const router = createRouter({
 			component: () => import('@/views/teams/EditTeam.vue'),
 		},
 		{
+			path: '/teams/:id/gantt',
+			name: 'teams.gantt',
+			component: () => import('@/views/teams/TeamGanttView.vue'),
+		},
+		{
 			path: '/labels',
 			name: 'labels.index',
 			component: () => import('@/views/labels/ListLabels.vue'),

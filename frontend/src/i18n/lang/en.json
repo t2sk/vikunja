@@ -780,6 +780,7 @@
     "actions": "Actions",
     "cannotBeUndone": "This cannot be undone!",
     "avatarOfUser": "{user}'s profile image",
+    "invalidId": "The provided ID is invalid.",
     "closeBanner": "Close banner",
     "closeDialog": "Close dialog",
     "closeQuickActions": "Close quick actions",
@@ -1189,6 +1190,10 @@
   },
   "team": {
     "title": "Teams",
+    "gantt": {
+      "open": "Open team gantt",
+      "readOnlyNotice": "This team-wide gantt is read-only. Open a project view to edit tasks."
+    },
     "noTeams": "You are currently not part of any teams.",
     "create": {
       "title": "Create a team",
@@ -1534,4 +1539,4 @@
       "newOwnerLabel": "New owner"
     }
   }
-}
+}

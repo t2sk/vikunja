@@ -15,6 +15,8 @@ export interface TaskFilterParams {
 	s: string,
 	per_page?: number,
 	expand?: ExpandTaskFilterParam,
+	project_ids?: number[],
+	'project_ids[]'?: number[],
 }
 
 export function getDefaultTaskFilterParams(): TaskFilterParams {

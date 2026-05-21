@@ -1972,3 +1972,72 @@ func TestTaskCollection_SubtaskWithMultipleParentsNoDuplicates(t *testing.T) {
 	assert.True(t, foundParent1, "Parent task 41 should be present")
 	assert.True(t, foundParent2, "Parent task 42 should be present")
 }
+
+func TestTaskCollection_ReadAll_WithProjectIDs(t *testing.T) {
+	db.LoadAndAssertFixtures(t)
+	s := db.NewSession()
+	defer s.Close()
+
+	c := &TaskCollection{
+		ProjectIDs: []int64{1, 4},
+	}
+
+	result, _, _, err := c.ReadAll(s, &user.User{ID: 1}, "", 0, 50)
+	require.NoError(t, err)
+
+	tasks, is := result.([]*Task)
+	require.True(t, is)
+	require.NotEmpty(t, tasks)
+
+	projectIDsInResult := make(map[int64]struct{})
+	for _, task := range tasks {
+		projectIDsInResult[task.ProjectID] = struct{}{}
+	}
+
+	_, hasProject1 := projectIDsInResult[1]
+	_, hasProject4 := projectIDsInResult[4]
+	assert.True(t, hasProject1)
+	assert.True(t, hasProject4)
+}
+
+func TestTaskCollection_ReadAll_WithProjectIDsArrAndDuplicates(t *testing.T) {
+	db.LoadAndAssertFixtures(t)
+	s := db.NewSession()
+	defer s.Close()
+
+	c := &TaskCollection{
+		ProjectIDs:    []int64{1},
+		ProjectIDsArr: []int64{1, 4},
+	}
+
+	result, _, _, err := c.ReadAll(s, &user.User{ID: 1}, "", 0, 50)
+	require.NoError(t, err)
+
+	tasks, is := result.([]*Task)
+	require.True(t, is)
+	require.NotEmpty(t, tasks)
+
+	projectIDsInResult := make(map[int64]struct{})
+	for _, task := range tasks {
+		projectIDsInResult[task.ProjectID] = struct{}{}
+	}
+
+	_, hasProject1 := projectIDsInResult[1]
+	_, hasProject4 := projectIDsInResult[4]
+	assert.True(t, hasProject1)
+	assert.True(t, hasProject4)
+}
+
+func TestTaskCollection_ReadAll_WithInvalidProjectIDs(t *testing.T) {
+	db.LoadAndAssertFixtures(t)
+	s := db.NewSession()
+	defer s.Close()
+
+	c := &TaskCollection{
+		ProjectIDs: []int64{0},
+	}
+
+	_, _, _, err := c.ReadAll(s, &user.User{ID: 1}, "", 0, 50)
+	require.Error(t, err)
+	assert.True(t, IsErrInvalidField(err))
+}

@@ -22,11 +22,19 @@
 					v-for="team in teams"
 					:key="team.id"
 				>
-					<RouterLink :to="{name: 'teams.edit', params: {id: team.id}}">
-						<p>
-							{{ team.name }}
-						</p>
-					</RouterLink>
+					<div class="team-row">
+						<RouterLink :to="{name: 'teams.edit', params: {id: team.id}}">
+							<p>
+								{{ team.name }}
+							</p>
+						</RouterLink>
+						<XButton
+							:to="{name: 'teams.gantt', params: {id: team.id}}"
+							size="small"
+						>
+							{{ $t('team.gantt.open') }}
+						</XButton>
+					</div>
 				</li>
 			</ul>
 		</Card>
@@ -84,6 +92,13 @@ ul.teams {
       }
     }
   }
+
+	.team-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-inline-end: .5rem;
+	}
 
   li:last-child {
     border-inline-end: none;

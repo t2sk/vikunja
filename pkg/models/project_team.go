@@ -26,6 +26,10 @@ import (
 	"xorm.io/xorm"
 )
 
+type TeamProjectListItem struct {
+	Project `xorm:"extends"`
+}
+
 // TeamProject defines the relation between a team and a project
 type TeamProject struct {
 	// The unique, numeric id of this project <-> team relation.
@@ -179,6 +183,47 @@ func (tl *TeamProject) Delete(s *xorm.Session, _ web.Auth) (err error) {
 // @Failure 500 {object} models.Message "Internal error"
 // @Router /projects/{id}/teams [get]
 func (tl *TeamProject) ReadAll(s *xorm.Session, a web.Auth, search string, page int, perPage int) (result interface{}, resultCount int, totalItems int64, err error) {
+	if tl.ProjectID == 0 && tl.TeamID > 0 {
+		team := &Team{ID: tl.TeamID}
+		canReadTeam, _, err := team.CanRead(s, a)
+		if err != nil {
+			return nil, 0, 0, err
+		}
+			if !canReadTeam {
+				return nil, 0, 0, ErrTeamDoesNotExist{TeamID: tl.TeamID}
+			}
+
+		limit, start := getLimitFromPageIndex(page, perPage)
+		projects := []*Project{}
+		query := s.Table("projects").
+			Join("INNER", "team_projects", "team_projects.project_id = projects.id").
+			Join("INNER", "team_members", "team_members.team_id = team_projects.team_id").
+			Where("team_projects.team_id = ?", tl.TeamID).
+			And("team_members.user_id = ?", a.GetID()).
+			And(db.ILIKE("projects.title", search)).
+			GroupBy("projects.id")
+		if limit > 0 {
+			query = query.Limit(limit, start)
+		}
+		if err := query.Find(&projects); err != nil {
+			return nil, 0, 0, err
+		}
+
+		totalItems, err = s.Table("projects").
+			Join("INNER", "team_projects", "team_projects.project_id = projects.id").
+			Join("INNER", "team_members", "team_members.team_id = team_projects.team_id").
+			Where("team_projects.team_id = ?", tl.TeamID).
+			And("team_members.user_id = ?", a.GetID()).
+			And(db.ILIKE("projects.title", search)).
+			GroupBy("projects.id").
+			Count(&Project{})
+		if err != nil {
+			return nil, 0, 0, err
+		}
+
+		return projects, len(projects), totalItems, nil
+	}
+
 	// Check if the user can read the project
 	l := &Project{ID: tl.ProjectID}
 	canRead, _, err := l.CanRead(s, a)

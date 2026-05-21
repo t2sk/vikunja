@@ -673,6 +673,7 @@ func registerAPIRoutes(a *echo.Group) {
 		},
 	}
 	a.GET("/projects/:project/teams", projectTeamHandler.ReadAllWeb)
+	a.GET("/teams/:team/projects", projectTeamHandler.ReadAllWeb)
 	a.PUT("/projects/:project/teams", projectTeamHandler.CreateWeb)
 	a.DELETE("/projects/:project/teams/:team", projectTeamHandler.DeleteWeb)
 	a.POST("/projects/:project/teams/:team", projectTeamHandler.UpdateWeb)

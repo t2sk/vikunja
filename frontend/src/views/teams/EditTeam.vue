@@ -3,6 +3,14 @@
 		class="loader-container is-max-width-desktop"
 		:class="{ 'is-loading': teamService.loading }"
 	>
+		<div class="mb-4 has-text-right">
+			<XButton
+				:to="{name: 'teams.gantt', params: {id: teamId}}"
+			>
+				{{ $t('team.gantt.open') }}
+			</XButton>
+		</div>
+
 		<Card
 			v-if="userIsAdmin && !team.oidcId"
 			class="is-fullwidth"

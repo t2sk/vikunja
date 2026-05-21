@@ -776,6 +776,7 @@
 		"actions": "アクション",
 		"cannotBeUndone": "この操作は元に戻せません！",
 		"avatarOfUser": "{user} のプロフィール画像",
+		"invalidId": "指定されたIDは無効です",
 		"closeBanner": "バナーを閉じる",
 		"closeDialog": "ダイアログを閉じる",
 		"closeQuickActions": "クイックアクションを閉じる",
@@ -1176,6 +1177,10 @@
 	},
 	"team": {
 		"title": "チーム",
+		"gantt": {
+			"open": "チームガントチャートを開く",
+			"readOnlyNotice": "このチーム全体のガントチャートは読み取り専用です。タスクを編集するには、プロジェクトビューを開いてください。"
+		},
 		"noTeams": "現在どのチームにも所属していません。",
 		"create": {
 			"title": "チームの作成",
